@@ -44,10 +44,14 @@
         <v-row>
           <v-col class="pa-0">
             <Catalogue
+              v-if="displayedProducts.length"
               :items="displayedProducts"
               :cartItemIds="cartItemIds"
               @click:addToCart="addProductToCart"
             />
+            <div v-else>
+              <h3>No Results Found</h3>
+            </div>
           </v-col>
         </v-row>
       </v-col>
