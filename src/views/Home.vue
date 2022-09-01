@@ -101,6 +101,13 @@ export default {
       priceOptions,
     };
   },
+  watch: {
+    searchTerm(value) {
+      if (!value && !this.displayedProducts.length) {
+        this.filterProductList();
+      }
+    },
+  },
   computed: {
     ...mapState(["products", "cartItems"]),
     cartItemIds() {
