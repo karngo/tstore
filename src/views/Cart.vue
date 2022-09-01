@@ -1,42 +1,51 @@
 <template>
   <v-container>
-    <v-row
-      v-for="(product, index) in productsInCart"
-      :key="index"
-      justify="center"
-    >
-      <v-col cols="8">
-        <v-card outlined>
-          <v-container>
-            <v-row align="center">
-              <v-col cols="3">
-                <v-img :src="product.imageURL" height="100" contain></v-img>
-              </v-col>
-              <v-col>
-                <div class="text-subtitle-2">{{ product.name }}</div>
-                <div class="text-caption">Price: {{ product.price }}</div>
-              </v-col>
-              <v-col cols="2">
-                <v-text-field
-                  hide-details="auto"
-                  type="number"
-                  prefix="Qty:"
-                  :value="product.orderQty"
-                  outlined
-                  dense
-                >
-                </v-text-field>
-              </v-col>
-              <v-col cols="2">
-                <v-btn @click="removeFromCart(product.id)" outlined>
-                  Remove
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card>
-      </v-col>
-    </v-row>
+    <template v-if="productsInCart.length">
+      <v-row
+        v-for="(product, index) in productsInCart"
+        :key="index"
+        justify="center"
+      >
+        <v-col cols="8">
+          <v-card outlined>
+            <v-container>
+              <v-row align="center">
+                <v-col cols="3">
+                  <v-img :src="product.imageURL" height="100" contain></v-img>
+                </v-col>
+                <v-col>
+                  <div class="text-subtitle-2">{{ product.name }}</div>
+                  <div class="text-caption">Price: {{ product.price }}</div>
+                </v-col>
+                <v-col cols="2">
+                  <v-text-field
+                    hide-details="auto"
+                    type="number"
+                    :min="0"
+                    prefix="Qty:"
+                    :value="product.orderQty"
+                    outlined
+                    dense
+                    @change="updateQuantity(product, $event)"
+                  >
+                  </v-text-field>
+                </v-col>
+                <v-col cols="2">
+                  <v-btn @click="removeFromCart(product.id)" outlined>
+                    Remove
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-col cols="8" class="text-end text-overline font-weight-black">
+          <span>Total Price: {{ totalPrice }} </span>
+        </v-col>
+      </v-row>
+    </template>
   </v-container>
 </template>
 <script>
@@ -61,9 +70,30 @@ export default {
 
       return productsInCart;
     },
+    totalPrice() {
+      const productsInCart = this.productsInCart;
+      if (!Array.isArray(productsInCart) || !productsInCart.length) {
+        return 0;
+      }
+
+      const totalPrice = productsInCart.reduce((total, product) => {
+        const productPrice = (product.orderQty || 0) * product.price;
+        return productPrice + total;
+      }, 0);
+
+      return totalPrice;
+    },
   },
   methods: {
-    ...mapActions(["removeFromCart"]),
+    ...mapActions(["removeFromCart", "updateCart"]),
+    updateQuantity(product, quantity) {
+      const cartItem = {
+        id: product.id,
+        orderQty: quantity,
+      };
+
+      this.updateCart(cartItem);
+    },
   },
 };
 </script>
