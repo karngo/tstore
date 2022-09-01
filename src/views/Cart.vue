@@ -46,6 +46,13 @@
         </v-col>
       </v-row>
     </template>
+    <v-row v-else>
+      <v-col>
+        <h2>Your cart is Empty</h2>
+        <span>Add some items from</span>
+        <v-btn small elevation="0" text color="primary" to="/">Catalogue</v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <script>
