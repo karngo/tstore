@@ -18,6 +18,11 @@
             :options="typeOptions"
             @change="addFilter('type', $event)"
           />
+          <CheckFilter
+            title="Price"
+            :options="priceOptions"
+            @change="addFilter('price', $event)"
+          />
         </v-list>
       </v-col>
       <v-col cols="9">
@@ -50,6 +55,27 @@ import Catalogue from "../components/Catalogue.vue";
 import CheckFilter from "../components/CheckFilter.vue";
 import { mapActions, mapState } from "vuex";
 
+const pricingStructure = {
+  "Below 250": [0, 250],
+  "250 - 300": [250, 300],
+  "300 - 500": [300, 500],
+  "Above 500": [500],
+};
+
+const isPriceInRange = (productPrice, priceRanges) => {
+  const priceValues = priceRanges.map(
+    (priceRange) => pricingStructure[priceRange]
+  );
+
+  return priceValues.some(([lowerLimit, upperLimit]) => {
+    if (!upperLimit) {
+      return productPrice >= lowerLimit;
+    }
+
+    return productPrice >= lowerLimit && productPrice < upperLimit;
+  });
+};
+
 export default {
   name: "Home",
   components: {
@@ -57,12 +83,14 @@ export default {
     CheckFilter,
   },
   data() {
+    const priceOptions = Object.keys(pricingStructure);
     return {
       searchTerm: "",
       displayedProducts: [],
       filterCriteria: {},
       colorOptions: [],
       typeOptions: [],
+      priceOptions,
     };
   },
   computed: {
@@ -119,7 +147,12 @@ export default {
           return filterKeys.every((filterKey) => {
             const filterOptions = filterCriteria[filterKey];
             const productValue = product[filterKey];
-            return filterOptions.some((option) => option == productValue);
+
+            if (filterKey != "price") {
+              return filterOptions.some((option) => option == productValue);
+            }
+
+            return isPriceInRange(productValue, filterOptions);
           });
         });
       }
