@@ -1,7 +1,15 @@
 <template>
   <v-app>
     <v-main>
-      <v-app-bar>TeeRex Store</v-app-bar>
+      <v-app-bar color="deep-purple accent-4" class="px-6">
+        <v-toolbar-title>TeeRex Store</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn text to="/"> Products </v-btn>
+        <v-btn icon to="/cart">
+          <v-icon>mdi-cart</v-icon>
+        </v-btn>
+      </v-app-bar>
+
       <router-view />
     </v-main>
   </v-app>
