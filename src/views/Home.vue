@@ -43,7 +43,11 @@
         </v-row>
         <v-row>
           <v-col class="pa-0">
-            <Catalogue :items="displayedProducts" />
+            <Catalogue
+              :items="displayedProducts"
+              :cartItemIds="cartItemIds"
+              @click:addToCart="addProductToCart"
+            />
           </v-col>
         </v-row>
       </v-col>
@@ -94,7 +98,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(["products"]),
+    ...mapState(["products", "cartItems"]),
+    cartItemIds() {
+      return this.cartItems.map(({ id }) => id);
+    },
   },
   async mounted() {
     await this.fetchProducts();
@@ -102,7 +109,7 @@ export default {
     this.setFilterOptions();
   },
   methods: {
-    ...mapActions(["fetchProducts"]),
+    ...mapActions(["fetchProducts", "addToCart"]),
     setFilterOptions() {
       this.products.forEach(({ color, type }) => {
         const productColor = color;
@@ -158,6 +165,14 @@ export default {
       }
 
       this.displayedProducts = filteredList;
+    },
+    addProductToCart(product) {
+      const cartItem = {
+        id: product.id,
+        orderQty: 1,
+      };
+
+      this.addToCart(cartItem);
     },
   },
 };

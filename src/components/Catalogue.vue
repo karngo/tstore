@@ -13,7 +13,17 @@
                 Rs. {{ item.price }}
               </v-col>
               <v-col>
-                <v-btn tile elevation="0" color="black" class="white--text">
+                <v-btn disabled tile elevation="0" v-if="isItemInCart(item)">
+                  Item Added
+                </v-btn>
+                <v-btn
+                  tile
+                  elevation="0"
+                  color="black"
+                  class="white--text"
+                  v-else
+                  @click="$emit('click:addToCart', item)"
+                >
                   Add to Cart
                 </v-btn>
               </v-col>
@@ -29,6 +39,12 @@ export default {
   name: "Catalogue",
   props: {
     items: Array,
+    cartItemIds: Array,
+  },
+  methods: {
+    isItemInCart(item) {
+      return this.cartItemIds?.includes(item.id);
+    },
   },
 };
 </script>
