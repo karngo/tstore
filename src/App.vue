@@ -6,7 +6,14 @@
         <v-spacer></v-spacer>
         <v-btn text to="/"> Products </v-btn>
         <v-btn icon to="/cart">
-          <v-icon>mdi-cart</v-icon>
+          <v-badge
+            color="green"
+            :value="cartItems.length"
+            :content="cartItems.length"
+            overlap
+          >
+            <v-icon>mdi-cart</v-icon>
+          </v-badge>
         </v-btn>
       </v-app-bar>
 
@@ -16,7 +23,11 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "App",
+  computed: {
+    ...mapState(["cartItems"]),
+  },
 };
 </script>
