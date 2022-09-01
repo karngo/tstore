@@ -17,12 +17,13 @@
                   <div class="text-subtitle-2">{{ product.name }}</div>
                   <div class="text-caption">Price: {{ product.price }}</div>
                 </v-col>
-                <v-col cols="2">
+                <v-col cols="3">
                   <v-text-field
-                    hide-details="auto"
+                    class="mt-6"
                     type="number"
                     :min="0"
                     prefix="Qty:"
+                    :rules="[isExcessQuantity(product)]"
                     :value="product.orderQty"
                     outlined
                     dense
@@ -100,6 +101,13 @@ export default {
       };
 
       this.updateCart(cartItem);
+    },
+    isExcessQuantity(product) {
+      return function (orderQty) {
+        return orderQty > product.quantity
+          ? "Exceeding maximum available quantity"
+          : true;
+      };
     },
   },
 };
