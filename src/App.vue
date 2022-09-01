@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <v-app-bar app color="deep-purple accent-4" class="px-6">
-      <v-toolbar-title>TeeRex Store</v-toolbar-title>
+      <v-btn to="/" plain class="transparent"> TeeRex Store </v-btn>
       <v-spacer></v-spacer>
-      <v-btn text to="/"> Products </v-btn>
+      <v-btn text to="/" v-if="!$vuetify.breakpoint.xsOnly"> Products </v-btn>
       <v-btn icon to="/cart">
         <v-badge
           color="green"
