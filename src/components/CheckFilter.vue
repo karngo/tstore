@@ -6,9 +6,11 @@
         v-for="(option, index) in options"
         :key="index"
         :value="option"
+        class="filter-item"
       >
         <v-checkbox
           dense
+          hide-details
           class="text-caption"
           :value="selectedOptions.includes(option)"
         >
@@ -41,3 +43,14 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.filter-item {
+  min-height: 0px;
+  ::v-deep {
+    .v-input--checkbox {
+      margin: 0px;
+      padding: 0px;
+    }
+  }
+}
+</style>
