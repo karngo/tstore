@@ -1,10 +1,10 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="3">
+      <v-col cols="3" v-if="!isXSmallScreen">
         <ProductFilter @filter="filterProductList" />
       </v-col>
-      <v-col cols="9">
+      <v-col cols="12" sm="9">
         <v-row>
           <v-col>
             <v-text-field
@@ -16,6 +16,21 @@
                 <v-btn tile elevation="0" @click="filterProductList()">
                   <v-icon>mdi-magnify</v-icon>
                 </v-btn>
+                <v-menu
+                  v-if="isXSmallScreen"
+                  bottom
+                  :close-on-content-click="false"
+                  max-height="400"
+                  offset-y
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn tile elevation="0" v-bind="attrs" v-on="on">
+                      <v-icon>mdi-filter</v-icon>
+                    </v-btn>
+                  </template>
+
+                  <ProductFilter @filter="filterProductList" class="pa-4" />
+                </v-menu>
               </template>
             </v-text-field>
           </v-col>
@@ -66,6 +81,9 @@ export default {
     ...mapState(["products", "cartItems"]),
     cartItemIds() {
       return this.cartItems.map(({ id }) => id);
+    },
+    isXSmallScreen() {
+      return this.$vuetify.breakpoint.xsOnly;
     },
   },
   async mounted() {
