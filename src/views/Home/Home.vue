@@ -59,8 +59,8 @@
   </v-container>
 </template>
 <script>
-import Catalogue from "../components/Catalogue.vue";
-import CheckFilter from "../components/CheckFilter.vue";
+import Catalogue from "../../components/Catalogue.vue";
+import CheckFilter from "../../components/CheckFilter.vue";
 import { mapActions, mapState } from "vuex";
 
 const pricingStructure = {
