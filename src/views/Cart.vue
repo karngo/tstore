@@ -6,18 +6,18 @@
         :key="index"
         justify="center"
       >
-        <v-col cols="8">
+        <v-col cols="12" lg="8">
           <v-card outlined>
             <v-container>
               <v-row align="center">
-                <v-col cols="3">
+                <v-col cols="6" md="3">
                   <v-img :src="product.imageURL" height="100" contain></v-img>
                 </v-col>
-                <v-col>
+                <v-col cols="6" md="4">
                   <div class="text-subtitle-2">{{ product.name }}</div>
                   <div class="text-caption">Price: {{ product.price }}</div>
                 </v-col>
-                <v-col cols="3">
+                <v-col cols="6" md="3">
                   <v-text-field
                     class="mt-6"
                     type="number"
@@ -31,8 +31,12 @@
                   >
                   </v-text-field>
                 </v-col>
-                <v-col cols="2">
-                  <v-btn @click="removeFromCart(product.id)" outlined>
+                <v-col cols="6" md="2">
+                  <v-btn
+                    :block="$vuetify.breakpoint.smAndDown"
+                    @click="removeFromCart(product.id)"
+                    outlined
+                  >
                     Remove
                   </v-btn>
                 </v-col>
@@ -42,7 +46,11 @@
         </v-col>
       </v-row>
       <v-row justify="center">
-        <v-col cols="8" class="text-end text-overline font-weight-black">
+        <v-col
+          cols="12"
+          md="8"
+          class="text-end text-overline font-weight-black"
+        >
           <span>Total Price: {{ totalPrice }} </span>
         </v-col>
       </v-row>
