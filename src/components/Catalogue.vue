@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-for="(item, index) in items" :key="index" cols="4">
+      <v-col v-for="(item, index) in items" :key="index" cols="6" md="4">
         <v-card>
           <v-card-title> {{ item.name }} </v-card-title>
           <v-card-text>
